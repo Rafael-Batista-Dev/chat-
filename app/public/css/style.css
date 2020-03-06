@@ -413,8 +413,8 @@ body {
   height: calc(100% - 334px);
 }
 #frame #sidepanel #contacts::-webkit-scrollbar {
-  width: 8px;
-  background: #f15b5c;
+  width: 4px;
+  background: #32465a;
 }
 #frame #sidepanel #contacts::-webkit-scrollbar-thumb {
   background-color: #f15b5c;
