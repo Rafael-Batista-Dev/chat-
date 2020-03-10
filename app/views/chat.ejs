@@ -180,7 +180,6 @@
       crossorigin="anonymous"
     ></script>
     <script src="/socket.io/socket.io.js"></script>
-
     <script>
       var socket = io("http://localhost");
 
@@ -192,7 +191,7 @@
         });
 
         $("#mensagem").val("");
-        $("updete_apelido_cli").val(1);
+        $("#updete_apelido_cli").val(1);
       });
 
       socket.on("msgUser", function(data) {
