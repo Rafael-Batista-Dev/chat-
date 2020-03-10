@@ -65,6 +65,9 @@
     />
 
     <link rel="stylesheet" href="css/style.css" />
+
+    <!-- JQUERY -->
+    <script src="js/jquery-2.2.1.js"></script>
   </head>
 
   <body>
@@ -115,13 +118,13 @@
           <label for=""><i class="fa fa-search" aria-hidden="true"></i></label>
           <input type="text" placeholder="Pesquisar..." />
         </div>
-        <div class="contacts" id="participantes">
+        <div class="contacts" id="exibe_participantes">
           <ul>
             <li class="contact">
               <div class="wrap">
                 <span class="contact-status online"></span>
                 <img src="img/avatar2.png" alt="" />
-                <div class="meta">
+                <div class="meta" id="participantes">
                   <p class="name" id="pessoas"></p>
                   <p class="preview">Escrevendo ...</p>
                 </div>
@@ -157,7 +160,7 @@
             </li>
           </ul>
         </div>
-        <div class="message-input">
+        <div class="message-input campo-mensagem">
           <div class="wrap">
             <input type="text" placeholder="Mensagem" id="mensagem" />
             <input type="hidden" value="<%=dadosForm.apelido%>" id="apelido" />
@@ -177,5 +180,44 @@
       crossorigin="anonymous"
     ></script>
     <script src="/socket.io/socket.io.js"></script>
+
+    <script>
+      var socket = io("http://localhost");
+
+      $("#enviar_msg").click(function() {
+        socket.emit("msgServer", {
+          apelido: $("#apelido").val(),
+          mensagem: $("#mensagem").val(),
+          updete_apelido_cli: $("#updete_apelido_cli").val()
+        });
+
+        $("#mensagem").val("");
+        $("updete_apelido_cli").val(1);
+      });
+
+      socket.on("msgUser", function(data) {
+        var html = "";
+
+        html += '<div class="dialogo">';
+        html += "<h4>" + data.apelido + "</h4>";
+        html += "<p>" + data.mensagem + "</p>";
+        html += "</div>";
+
+        $("#dialogos").append(html);
+
+        window.scrollTo(0, document.body.scrollHeight);
+      });
+
+      socket.on("grupoParticipantes", function(data) {
+        var html = "";
+
+        html += '<span class="participante">';
+        html += '<img src="images/ico_usuario.png">';
+        html += data.apelido;
+        html += "</span>";
+
+        $("#pessoas").append(html);
+      });
+    </script>
   </body>
 </html>
